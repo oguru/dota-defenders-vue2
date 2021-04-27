@@ -1,57 +1,101 @@
 <template>
-  <v-app>
-    <v-app-bar app color="primary" dark>
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
-
-    <v-main>
-      <HelloWorld />
-    </v-main>
-  </v-app>
+    <v-app>
+        <v-app-bar app color="primary">
+            <v-container>
+                <v-btn class="mx-1"
+                    ><router-link to="/">Main</router-link></v-btn
+                >
+                <!-- <v-btn class="mx-1" v-if="storeHero"
+                    ><router-link to="/hero">Hero</router-link></v-btn
+                >
+                <v-btn class="mx-1" v-else
+                    ><router-link to="/create-hero"
+                        >Create Hero</router-link
+                    ></v-btn
+                > -->
+            </v-container>
+        </v-app-bar>
+        <v-container>
+            <p>teststst</p>
+            <router-view />
+        </v-container>
+    </v-app>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import HelloWorld from "./components/HelloWorld.vue";
+import {
+    defineComponent,
+    reactive,
+    watch,
+    computed,
+    setup,
+    ref,
+    watchEffect,
+    onMounted
+} from '@vue/composition-api'
+import Vue from 'vue'
+import heroCRUD from './composables/heroCRUD'
+import { IHero } from './interfaces/hero.interface'
+
+const { saveHero, fetchHero } = heroCRUD()
 
 export default Vue.extend({
-  name: "App",
+    name: 'App',
+    setup() {
+        // const store = root.$store
+        // const hero = computed(() => {})
 
-  components: {
-    HelloWorld,
-  },
+        //bool to ref or obj to ref - vue wraps inside another obj
+        //generic says expect bool inside this obj
 
-  data: () => ({
-    //
-  }),
-});
+        //init
+        const hero = reactive<{ data: IHero | Record<string, never> }>({
+            data: {}
+        })
+        // debugger
+        console.log('gsgsg')
+
+        onMounted(() => {
+            console.log('gfgsdg')
+        })
+        //get hero from backend
+        const loadHero = async (): Promise<void> => {
+            await fetchHero().then(val => {
+                if (val) {
+                    hero.data = val
+                }
+            })
+            // if (!hero.data.name) {
+            // hero.data = value
+            // }
+        }
+
+        Promise.resolve(loadHero()).then(() =>
+            console.log('promise', hero.data.name)
+        )
+
+        // watch(hero, newHero => {
+        //     store.commit('updateHero', newHero)
+        // })
+
+        hero.data.name = 'riki'
+
+        // const storeHero = computed(store.state.hero.name)
+
+        return {
+            hero
+            // storeHero
+        }
+    }
+})
 </script>
+
+<style lang="scss">
+#app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+}
+</style>

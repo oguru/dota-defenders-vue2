@@ -1,0 +1,18 @@
+{
+    "hero": {
+        "baseId": 1,
+        "name": "Anti-Mage",
+        "abilities": [
+            {
+                "id": 1
+            },
+            {}
+        ],
+        "stats": {
+            "agi": 10,
+            "int": 10,
+            "str": 10
+        },
+        "exp": 0
+    }
+}
