@@ -1,20 +1,18 @@
 <template>
     <div>
-        sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
+        <p class="nowrap"></p>
     </div>
 </template>
 
 <script>
 import { defineComponent } from '@vue/composition-api'
+import createHero from '../composables/createHero'
 
 export default defineComponent({
+    name: 'CreateHero',
     setup() {
-        console.log('gssssgg')
-        // name: Hero,
-        // props:
-        return {
-            // Hero
-        }
+        const { getRandomHero, getRandomAbility, buildHero } = createHero()
+        return {}
     }
 })
 </script>

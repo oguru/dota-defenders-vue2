@@ -18,11 +18,8 @@ import {
     reactive
 } from '@vue/composition-api'
 import { ref } from 'vue'
-import createHero from '../composables/createHero'
 import store from '@/store'
 import { IHero } from '../interfaces/hero.interface'
-
-const { getRandomHero, getRandomAbility, buildHero } = createHero()
 
 export default defineComponent({
     name: 'Hero',
