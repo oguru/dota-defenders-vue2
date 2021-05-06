@@ -1,59 +1,74 @@
 <template>
-    <v-card>
-        <template #header>
-            <div>
-                <h1>{{ $store.state.test.id }}</h1>
-                <h4>{{ hero.localized_name }}</h4>
-                <!-- <button @click="changeHero">Change Hero</button> -->
+    <v-hover v-slot="{ hover }">
+        <v-card
+            @click="$emit('selectHero', hero)"
+            class="hero-card transition-speed"
+            :elevation="hover ? 8 : 2"
+        >
+            <div
+                class="d-flex flex-column transition-speed"
+                :class="{ 'raise-card': hover }"
+            >
+                <img
+                    :src="`http://cdn.dota2.com${hero.img}`"
+                    alt=""
+                    srcset=""
+                />
+                <h3 class="my-4">{{ hero.localized_name }}</h3>
+                <!-- {{ checkAbilities }} -->
+                <p>{{ primaryAttr }} hero</p>
+                <p>{{ hero.attack_type }}</p>
+                <p>Base HP: {{ hero.base_health }}</p>
+                <p>Base Mana: {{ hero.base_mana }}</p>
+                <p>Strength Gain: {{ hero.str_gain }}</p>
+                <p>Agility Gain: {{ hero.agi_gain }}</p>
+                <p>Intelligence Gain: {{ hero.int_gain }}</p>
+                <!--<button @click="changeHero">Change Hero</button> -->
             </div>
-        </template>
-    </v-card>
+        </v-card>
+    </v-hover>
 </template>
 
-<script>
+<script lang="ts">
 import {
     computed,
     defineComponent,
     watch,
-    reactive
+    reactive,
+    ref
 } from '@vue/composition-api'
-import { ref } from 'vue'
 import store from '@/store'
-import { IHero } from '../interfaces/hero.interface'
+// import { IHero } from '../interfaces/hero.interface'
 
 export default defineComponent({
-    name: 'Hero',
+    name: 'BaseHero',
     props: {
-        npc: Boolean
+        npc: Boolean,
+        hero: Object,
+        selectedHero: Object
     },
-    setup() {
-        // alert(store.state.test.id)
-
-        const hero = reactive({
-            // data: buildHero()
-            data: {}
+    setup(props) {
+        const primaryAttr = computed(() => {
+            switch (props.hero.primary_attr) {
+                case 'str':
+                    return 'Strength'
+                case 'agi':
+                    return 'Agility'
+                default:
+                    return 'Intelligence'
+            }
         })
-
-        // let hero = computed(() => buildHero())
-
-        watch(hero, newVal => {
-            store.commit('updateHero', newVal)
-        })
-
-        // const changeHero = () => {
-        //     hero.data = buildHero()
-        // }
-
-        // watch(store.state.hero, () => {
-        //     console.log('from store', store.getters.getHero)
-        // })
-
-        return {
-            hero
-            // changeHero
-        }
+        return { primaryAttr }
     }
 })
 </script>
 
-<style lang=""></style>
+<style scoped lang="scss">
+.hero-card {
+    cursor: pointer;
+
+    .raise-card {
+        transform: translateY(-2px);
+    }
+}
+</style>

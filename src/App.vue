@@ -88,4 +88,7 @@ export default defineComponent({
     text-align: center;
     color: #2c3e50;
 }
+.transition-speed {
+    transition-duration: 0.5s;
+}
 </style>
