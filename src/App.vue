@@ -62,7 +62,7 @@ export default defineComponent({
         const loadHero = async (): Promise<void> => {
             /*             await fetchHero().then(val => {
                 if (val) {
-                    hero.data = val
+                    hero.baseHero = val
                     isLoading.value = false
                 }
                 return

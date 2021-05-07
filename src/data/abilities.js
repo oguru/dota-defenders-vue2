@@ -161,6 +161,7 @@ const abilities = [
         img: '/apps/dota2/images/abilities/zuus_cloud_hp2.png'
     },
     {
+        id: 5,
         dname: 'Eclipse',
         type: 'Attack',
         behavior: 'No Target',
@@ -230,6 +231,7 @@ const abilities = [
         img: '/apps/dota2/images/abilities/luna_eclipse_hp2.png'
     },
     {
+        id: 6,
         dname: 'Breathe Fire',
         type: 'Attack',
         behavior: [null, 'Point Target', 'Unit Target'],
@@ -279,6 +281,7 @@ const abilities = [
         img: '/apps/dota2/images/abilities/dragon_knight_breathe_fire_hp2.png'
     },
     {
+        id: 7,
         dname: "Greevil's Greed",
         type: 'Buff',
         behavior: 'Passive',
@@ -314,6 +317,7 @@ const abilities = [
         img: '/apps/dota2/images/abilities/alchemist_goblins_greed_hp2.png'
     },
     {
+        id: 8,
         dname: 'Chemical Rage',
         type: 'Buff',
         behavior: 'No Target',

@@ -3,11 +3,17 @@
         <v-card
             @click="$emit('selectHero', hero)"
             class="hero-card transition-speed"
-            :elevation="hover ? 8 : 2"
+            :elevation="hover || isSelected ? 8 : 2"
         >
+            <v-overlay
+                :opacity="hover ? 0.2 : 0.46"
+                absolute
+                :value="!isSelected"
+            >
+            </v-overlay>
             <div
                 class="d-flex flex-column transition-speed"
-                :class="{ 'raise-card': hover }"
+                :class="{ 'raise-card': hover || isSelected }"
             >
                 <img
                     :src="`http://cdn.dota2.com${hero.img}`"
@@ -47,7 +53,11 @@ export default defineComponent({
         hero: Object,
         selectedHero: Object
     },
-    setup(props) {
+    setup(props, { emit }) {
+        const { npc, hero, selectedHero } = props
+
+        const isSelected = ref(false)
+
         const primaryAttr = computed(() => {
             switch (props.hero.primary_attr) {
                 case 'str':
@@ -58,13 +68,20 @@ export default defineComponent({
                     return 'Intelligence'
             }
         })
-        return { primaryAttr }
+
+        watch(selectedHero, () => {
+            if (selectedHero.hero.id === hero.id) isSelected.value = true
+            else isSelected.value = false
+        })
+
+        return { primaryAttr, isSelected }
     }
 })
 </script>
 
 <style scoped lang="scss">
 .hero-card {
+    position: relative;
     cursor: pointer;
 
     .raise-card {
