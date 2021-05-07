@@ -1,15 +1,12 @@
 <template>
+    <!-- <Card> -->
     <v-hover v-slot="{ hover }">
         <v-card
             @click="$emit('selectHero', hero)"
             class="hero-card transition-speed"
             :elevation="hover || isSelected ? 8 : 2"
         >
-            <v-overlay
-                :opacity="hover ? 0.2 : 0.46"
-                absolute
-                :value="!isSelected"
-            >
+            <v-overlay :opacity="hover ? 0.2 : 0.46" absolute :value="overlay">
             </v-overlay>
             <div
                 class="d-flex flex-column transition-speed"
@@ -33,6 +30,7 @@
             </div>
         </v-card>
     </v-hover>
+    <!-- </Card> -->
 </template>
 
 <script lang="ts">
@@ -58,6 +56,16 @@ export default defineComponent({
 
         const isSelected = ref(false)
 
+        const init = ref(true)
+
+        const overlay = computed(() => {
+            if (init.value) return false
+            if (!isSelected.value) return true
+            return false
+        })
+
+        console.log('overlay value: ', overlay.value)
+
         const primaryAttr = computed(() => {
             switch (props.hero.primary_attr) {
                 case 'str':
@@ -70,11 +78,17 @@ export default defineComponent({
         })
 
         watch(selectedHero, () => {
-            if (selectedHero.hero.id === hero.id) isSelected.value = true
-            else isSelected.value = false
+            if (selectedHero.hero) {
+                init.value = false
+            }
+            if (selectedHero.hero.id === hero.id) {
+                isSelected.value = true
+            } else {
+                isSelected.value = false
+            }
         })
 
-        return { primaryAttr, isSelected }
+        return { primaryAttr, isSelected, overlay }
     }
 })
 </script>
