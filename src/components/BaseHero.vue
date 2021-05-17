@@ -1,36 +1,19 @@
 <template>
-    <!-- <Card> -->
-    <v-hover v-slot="{ hover }">
-        <v-card
-            @click="$emit('selectHero', hero)"
-            class="hero-card transition-speed"
-            :elevation="hover || isSelected ? 8 : 2"
-        >
-            <v-overlay :opacity="hover ? 0.2 : 0.46" absolute :value="overlay">
-            </v-overlay>
-            <div
-                class="d-flex flex-column transition-speed"
-                :class="{ 'raise-card': hover || isSelected }"
-            >
-                <img
-                    :src="`http://cdn.dota2.com${hero.img}`"
-                    alt=""
-                    srcset=""
-                />
-                <h3 class="my-4">{{ hero.localized_name }}</h3>
-                <!-- {{ checkAbilities }} -->
-                <p>{{ primaryAttr }} hero</p>
-                <p>{{ hero.attack_type }}</p>
-                <p>Base HP: {{ hero.base_health }}</p>
-                <p>Base Mana: {{ hero.base_mana }}</p>
-                <p>Strength Gain: {{ hero.str_gain }}</p>
-                <p>Agility Gain: {{ hero.agi_gain }}</p>
-                <p>Intelligence Gain: {{ hero.int_gain }}</p>
-                <!--<button @click="changeHero">Change Hero</button> -->
-            </div>
-        </v-card>
-    </v-hover>
-    <!-- </Card> -->
+    <Card
+        @handleClick="$emit('selectHero', hero)"
+        :overlay="overlay"
+        :isSelected="isSelected"
+    >
+        <img :src="`http://cdn.dota2.com${hero.img}`" :alt="hero.name" />
+        <h3 class="my-4">{{ hero.localized_name }}</h3>
+        <p>{{ primaryAttr }} hero</p>
+        <p>{{ hero.attack_type }}</p>
+        <p>Base HP: {{ hero.base_health }}</p>
+        <p>Base Mana: {{ hero.base_mana }}</p>
+        <p>Strength Gain: {{ hero.str_gain }}</p>
+        <p>Agility Gain: {{ hero.agi_gain }}</p>
+        <p>Intelligence Gain: {{ hero.int_gain }}</p>
+    </Card>
 </template>
 
 <script lang="ts">
@@ -43,9 +26,11 @@ import {
 } from '@vue/composition-api'
 import store from '@/store'
 // import { IHero } from '../interfaces/hero.interface'
+import Card from '@/components/Card'
 
 export default defineComponent({
     name: 'BaseHero',
+    components: { Card },
     props: {
         npc: Boolean,
         hero: Object,
@@ -63,8 +48,6 @@ export default defineComponent({
             if (!isSelected.value) return true
             return false
         })
-
-        console.log('overlay value: ', overlay.value)
 
         const primaryAttr = computed(() => {
             switch (props.hero.primary_attr) {

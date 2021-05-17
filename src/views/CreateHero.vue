@@ -1,7 +1,17 @@
 <template>
     <section>
         <div v-if="!hero.baseHero.name">
-            <div class="d-flex">
+            <h1 class="my-3">Choose a Hero</h1>
+            <v-btn
+                :disabled="!selectedHero.hero"
+                @click="lockHero"
+                large
+                class="ma-2"
+            >
+                <span>Abilities</span>
+                <v-icon left size="25" class="ml-2"> mdi-arrow-right </v-icon>
+            </v-btn>
+            <div class="d-flex justify-center">
                 <BaseHero
                     v-for="randomHero in randomHeroes"
                     :key="randomHero.id"
@@ -11,42 +21,51 @@
                     @selectHero="selectHero"
                 />
             </div>
-            <v-btn
-                @click="lockHero"
-                large
-                class="ma-2"
-                v-if="selectedHero.hero"
-            >
-                <span>Abilities</span>
-                <v-icon left size="25" class="ml-2"> mdi-arrow-right </v-icon>
-            </v-btn>
         </div>
-        <div v-if="hero.baseHero.name && hero.abilities.length < 1">
-            <v-row>
-                <v-col v-for="ability in randomAbilities" :key="ability.id">
-                    <AbilityCard
-                        class="pa-4"
-                        :ability="ability"
-                        :selectedAbilities="selectedAbilities"
-                        @selectAbility="selectAbility"
-                    />
-                </v-col>
-            </v-row>
+        <div v-if="hero.baseHero.name">
+            <h1 class="mt-3 mb-1">Choose Abilities</h1>
+            <h3 class="mb-3">{{ `${numAbilities}/4` }}</h3>
             <v-btn
-                @click="lockHero"
+                @click="storeHero"
                 large
                 class="ma-2"
-                v-if="Object.keys(selectedAbilities).length === 4"
+                :disabled="numAbilities < 4"
             >
                 <span>Create!</span>
                 <v-icon left size="25" class="ml-2"> mdi-arrow-right </v-icon>
             </v-btn>
+            <v-row class="justify-center ma-3">
+                <v-col
+                    cols="12"
+                    xs="10"
+                    sm="8"
+                    md="6"
+                    lg="4"
+                    xl="3"
+                    :key="ability.id"
+                    v-for="ability in randomAbilities"
+                >
+                    <AbilityCard
+                        class="fill-height pa-4"
+                        :ability="ability"
+                        :selectedAbilities="hero.abilities"
+                        @changeAbility="changeAbility"
+                        :numAbilities="numAbilities"
+                    />
+                </v-col>
+            </v-row>
         </div>
     </section>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive, ref } from '@vue/composition-api'
+import {
+    computed,
+    defineComponent,
+    reactive,
+    ref,
+    getCurrentInstance
+} from '@vue/composition-api'
 import createHero from '@/composables/createHero'
 import { IHero } from '@/interfaces/hero.interface'
 import BaseHero from '@/components/BaseHero'
@@ -56,7 +75,8 @@ export default defineComponent({
     name: 'CreateHero',
     components: { AbilityCard, BaseHero },
     setup() {
-        const { getRandomHero, getRandomAbility, buildHero } = createHero()
+        const { getRandomHero, getRandomAbility } = createHero()
+        const store = getCurrentInstance().proxy.$store
 
         const randomHeroes = computed(() => {
             const heroSet = new Set()
@@ -77,10 +97,23 @@ export default defineComponent({
             return [...abilitySet]
         })
 
-        const selectedAbilities = reactive({})
+        // const hero.abilities = reactive({})
 
-        const selectAbility = ability =>
-            (selectedAbilities[ability.id] = ability)
+        // const numAbilities = computed(() => {
+        //     return Object.keys(hero.abilities).length
+        // })
+
+        const numAbilities = ref(0)
+
+        const changeAbility = ability => {
+            if (hero.abilities[ability.id]) {
+                delete hero.abilities[ability.id]
+                numAbilities.value--
+            } else {
+                hero.abilities[ability.id] = ability
+                numAbilities.value++
+            }
+        }
 
         const selectedHero = reactive({ hero: null })
 
@@ -88,17 +121,27 @@ export default defineComponent({
             selectedHero.hero = value
         }
 
-        const lockHero = () => {
-            hero.baseHero = selectedHero.hero
-        }
-
         const hero = reactive<{
             baseHero: IHero | Record<string, never>
-            abilities: []
+            abilities: any
         }>({
             baseHero: {},
-            abilities: []
+            abilities: {}
         })
+
+        const lockHero = () => {
+            hero.baseHero = selectedHero.hero
+            // hero.abilities = hero.abilities
+        }
+
+        const storeHero = () => {
+            store.commit('updateHero', {
+                hero: {
+                    ...hero.baseHero,
+                    abilities: Object.values(hero.abilities)
+                }
+            })
+        }
 
         return {
             hero,
@@ -106,8 +149,11 @@ export default defineComponent({
             selectedHero,
             selectHero,
             lockHero,
-            selectedAbilities,
-            randomAbilities
+            selectedAbilities: hero.abilities,
+            randomAbilities,
+            numAbilities,
+            changeAbility,
+            storeHero
         }
     }
 })

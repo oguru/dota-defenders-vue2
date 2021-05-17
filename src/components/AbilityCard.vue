@@ -1,25 +1,63 @@
 <template>
-    <v-card>
+    <Card
+        @handleClick="changeAbility"
+        :overlay="!isSelected"
+        :isSelected="isSelected"
+        :disabled="!isSelected && numAbilities === 4"
+    >
+        <!-- <div> -->
         <h2>{{ dname }}</h2>
         <p>{{ type }}</p>
-        <img :src="`http://cdn.dota2.com${img}`" :alt="name" />
-        <p>{{ desc }}</p>
-        <p>{{ stats }}</p>
-    </v-card>
+        <!-- </div> -->
+        <v-img
+            class="flex-grow-0 mx-auto"
+            max-height="150"
+            max-width="150"
+            :src="`http://cdn.dota2.com${img}`"
+        ></v-img>
+        <p class="mt-5">{{ desc }}</p>
+    </Card>
 </template>
 
 <script>
-import { defineComponent } from '@vue/composition-api'
+import { defineComponent, ref, watch } from '@vue/composition-api'
+import Card from '@/components/Card'
+import abilities from '@/data/abilities'
 
 export default defineComponent({
     name: 'AbilityCard',
+    components: { Card },
     props: {
-        ability: Object
+        ability: Object,
+        selectedAbilities: Object,
+        numAbilities: Number
     },
-    setup(props) {
-        const { dname, type, img, desc, stats } = props.ability
+    emits: ['changeAbility'],
+    setup(props, { emit }) {
+        const { dname, type, img, desc, stats, id } = props.ability
+        const { ability, selectedAbilities, numAbilities } = props
 
-        return { dname, type, img, desc, stats }
+        const isSelected = ref(false)
+
+        const changeAbility = () => {
+            if (isSelected.value) {
+                isSelected.value = false
+                emit('changeAbility', ability)
+            } else if (!isSelected.value && numAbilities < 4) {
+                isSelected.value = true
+                emit('changeAbility', ability)
+            }
+        }
+
+        // watch(selectedAbilities, () => {
+        //     if (selectedAbilities[id]) {
+        //         isSelected.value = true
+        //     } else {
+        //         isSelected.value = false
+        //     }
+        // })
+
+        return { dname, type, img, desc, stats, changeAbility, isSelected }
     }
 })
 </script>
