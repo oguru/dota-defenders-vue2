@@ -70,12 +70,14 @@ import createHero from '@/composables/createHero'
 import { IHero } from '@/interfaces/hero.interface'
 import BaseHero from '@/components/BaseHero'
 import AbilityCard from '@/components/AbilityCard'
+import heroCRUD from '@/composables/heroCRUD'
 
 export default defineComponent({
     name: 'CreateHero',
     components: { AbilityCard, BaseHero },
     setup() {
         const { getRandomHero, getRandomAbility } = createHero()
+        const { saveHeroToDb } = heroCRUD()
         const store = getCurrentInstance().proxy.$store
 
         const randomHeroes = computed(() => {
@@ -136,11 +138,10 @@ export default defineComponent({
 
         const storeHero = () => {
             store.commit('updateHero', {
-                hero: {
-                    ...hero.baseHero,
-                    abilities: Object.values(hero.abilities)
-                }
+                ...hero.baseHero,
+                abilities: Object.values(hero.abilities)
             })
+            saveHeroToDb(store.getters.getHero)
         }
 
         return {

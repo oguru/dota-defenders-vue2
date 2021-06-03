@@ -8,7 +8,7 @@ const heroCRUD = () => {
         return data
     }
 
-    const saveHero = async hero => {
+    const saveHeroToDb = async hero => {
         await fetch('api/hero', {
             method: 'POST',
             headers: {
@@ -20,7 +20,7 @@ const heroCRUD = () => {
         return
     }
 
-    return { fetchHero, saveHero }
+    return { fetchHero, saveHeroToDb }
 }
 
 export default heroCRUD

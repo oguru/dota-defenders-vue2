@@ -5,10 +5,6 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
     state: {
-        test: {
-            id: 1,
-            name: 'testname'
-        },
         hero: {}
     },
 
@@ -21,7 +17,7 @@ const store = new Vuex.Store({
     //payload is an argument or object of arguments
     mutations: {
         updateHero: (state, payload) => {
-            state.hero = { ...state.hero, payload }
+            state.hero = { ...payload }
         }
     },
 

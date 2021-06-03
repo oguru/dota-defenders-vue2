@@ -1,18 +1,236 @@
 {
-    "hero": {
-        "baseId": 1,
-        "name": "Anti-Mage",
-        "abilities": [
-            {
-                "id": 1
-            },
-            {}
+  "hero": {
+    "id": 5,
+    "name": "npc_dota_hero_crystal_maiden",
+    "localized_name": "Crystal Maiden",
+    "primary_attr": "int",
+    "attack_type": "Ranged",
+    "roles": [
+      "Support",
+      "Disabler",
+      "Nuker",
+      "Jungler"
+    ],
+    "img": "/apps/dota2/images/heroes/crystal_maiden_vert.jpg?",
+    "icon": "/apps/dota2/images/heroes/crystal_maiden_icon.png",
+    "base_health": 200,
+    "base_health_regen": null,
+    "base_mana": 75,
+    "base_mana_regen": 1,
+    "base_armor": -1,
+    "base_mr": 25,
+    "base_attack_min": 30,
+    "base_attack_max": 36,
+    "base_str": 18,
+    "base_agi": 16,
+    "base_int": 14,
+    "str_gain": 2.2,
+    "agi_gain": 1.6,
+    "int_gain": 3.3,
+    "attack_range": 600,
+    "projectile_speed": 900,
+    "attack_rate": 1.7,
+    "move_speed": 275,
+    "turn_rate": 0.5,
+    "cm_enabled": true,
+    "legs": 2,
+    "abilities": [
+      {
+        "id": 1,
+        "dname": "Counterspell",
+        "type": "Protection",
+        "behavior": [
+          "No Target",
+          "Instant Cast"
         ],
-        "stats": {
-            "agi": 10,
-            "int": 10,
-            "str": 10
-        },
-        "exp": 0
-    }
+        "desc": "Passively grants you magic resistance. Can be activated to create an anti-magic shell around you that sends any targeted spells back towards enemies instead of affecting you.",
+        "attrib": [
+          {
+            "key": "magic_resistance",
+            "header": "MAGIC RESISTANCE:",
+            "value": [
+              "15%",
+              "25%",
+              "35%",
+              "45%"
+            ]
+          },
+          {
+            "key": "duration",
+            "header": "DURATION:",
+            "value": "1"
+          }
+        ],
+        "mc": [
+          "45",
+          "50",
+          "55",
+          "60"
+        ],
+        "cd": [
+          "15",
+          "11",
+          "7",
+          "3"
+        ],
+        "img": "/apps/dota2/images/abilities/antimage_counterspell_hp2.png"
+      },
+      {
+        "id": 2,
+        "dname": "Culling Blade",
+        "type": "Attack",
+        "behavior": "Unit Target",
+        "dmg_type": "Magical",
+        "bkbpierce": "Yes",
+        "desc": "Axe spots a weakness and strikes, instantly killing an enemy unit with low health, or dealing moderate damage otherwise. When an enemy hero is killed with Culling Blade, its cooldown is reset, and Axe and nearby allied units gain bonus movement speed.",
+        "attrib": [
+          {
+            "key": "kill_threshold",
+            "header": "KILL THRESHOLD:",
+            "value": [
+              "250",
+              "325",
+              "400"
+            ]
+          },
+          {
+            "key": "damage",
+            "header": "DAMAGE:",
+            "value": [
+              "150",
+              "250",
+              "300"
+            ]
+          },
+          {
+            "key": "speed_bonus",
+            "header": "KILL MOVE SPEED BONUS:",
+            "value": "30%"
+          },
+          {
+            "key": "atk_speed_bonus",
+            "header": "KILL ATTACK SPEED BONUS:",
+            "value": "30"
+          },
+          {
+            "key": "speed_duration",
+            "header": "KILL SPEED DURATION:",
+            "value": "6"
+          },
+          {
+            "key": "speed_aoe",
+            "header": "KILL SPEED RADIUS:",
+            "value": "900"
+          }
+        ],
+        "mc": [
+          "60",
+          "120",
+          "180"
+        ],
+        "cd": [
+          "75",
+          "65",
+          "55"
+        ],
+        "img": "/apps/dota2/images/abilities/axe_culling_blade_hp2.png"
+      },
+      {
+        "id": 4,
+        "dname": "Nimbus",
+        "type": "Attack",
+        "behavior": [
+          "Point Target",
+          "AOE",
+          "Hidden",
+          null
+        ],
+        "dmg_type": "Magical",
+        "bkbpierce": "No",
+        "desc": "Creates a storm cloud anywhere on the map that automatically casts Lightning Bolt on nearby enemies.",
+        "attrib": [
+          {
+            "key": "cloud_duration",
+            "header": "DURATION:",
+            "value": "35"
+          },
+          {
+            "key": "cloud_bolt_interval",
+            "header": "LIGHTNING BOLT BASE COOLDOWN:",
+            "value": "2.25"
+          },
+          {
+            "key": "cloud_radius",
+            "header": "CLOUD RADIUS:",
+            "value": "450",
+            "generated": true
+          },
+          {
+            "key": "hits_to_kill_tooltip",
+            "header": "HITS TO DESTROY:",
+            "value": "8"
+          },
+          {
+            "key": "creep_hits_to_kill_tooltip",
+            "header": "CREEP HITS TO DESTROY:",
+            "value": "16"
+          },
+          {
+            "key": "cloud_bounty_tooltip",
+            "header": "CLOUD BOUNTY TOOLTIP:",
+            "value": "100",
+            "generated": true
+          }
+        ],
+        "mc": "325",
+        "cd": "35",
+        "img": "/apps/dota2/images/abilities/zuus_cloud_hp2.png"
+      },
+      {
+        "id": 7,
+        "dname": "Greevil's Greed",
+        "type": "Buff",
+        "behavior": "Passive",
+        "desc": "Alchemist synthesizes additional gold from his enemies and bounty runes. With each kill, Alchemist earns base bonus gold and extra bonus gold. If Alchemist kills another unit which yields gold within the next 40 seconds, an additional instance of Extra Bonus Gold is added to the total. Additionally, causes bounty runes to yield more gold.",
+        "attrib": [
+          {
+            "key": "duration",
+            "header": "RECENT KILL WINDOW:",
+            "value": "40"
+          },
+          {
+            "key": "bonus_gold",
+            "header": "BASE BONUS GOLD:",
+            "value": "4"
+          },
+          {
+            "key": "bonus_bonus_gold",
+            "header": "EXTRA BONUS GOLD:",
+            "value": "3"
+          },
+          {
+            "key": "bonus_gold_cap",
+            "header": "MAX BONUS GOLD PER KILL:",
+            "value": [
+              "20",
+              "24",
+              "28",
+              "32"
+            ]
+          },
+          {
+            "key": "bounty_multiplier",
+            "header": "BOUNTY RUNE MULTIPLIER:",
+            "value": [
+              "2",
+              "2.5",
+              "3",
+              "3.5"
+            ]
+          }
+        ],
+        "img": "/apps/dota2/images/abilities/alchemist_goblins_greed_hp2.png"
+      }
+    ]
+  }
 }

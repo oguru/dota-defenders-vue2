@@ -5,9 +5,14 @@
                 <v-btn class="mx-1"
                     ><router-link to="/">Main</router-link></v-btn
                 >
-                <v-btn class="mx-1" v-if="hero.data.name"
-                    ><router-link to="/hero">Hero</router-link></v-btn
-                >
+                <template v-if="hero.data.name">
+                    <v-btn class="mx-1"
+                        ><router-link to="/hero">Hero</router-link></v-btn
+                    >
+                    <v-btn class="mx-1"
+                        ><router-link to="/battle">Battle</router-link></v-btn
+                    >
+                </template>
                 <v-btn class="mx-1" v-else
                     ><router-link to="/create-hero"
                         >Create Hero</router-link
@@ -39,13 +44,13 @@ import Vue from 'vue'
 import heroCRUD from './composables/heroCRUD'
 import { IHero } from './interfaces/hero.interface'
 
-const { saveHero, fetchHero } = heroCRUD()
+const { saveHeroToDb, fetchHero } = heroCRUD()
 
 export default defineComponent({
     name: 'App',
     setup() {
         const store = getCurrentInstance().proxy.$store
-        const isLoading = ref<boolean>(true)
+        const isLoading = ref(true)
 
         //bool to ref or obj to ref - vue wraps inside another obj
         //generic says expect bool inside this obj
@@ -60,16 +65,19 @@ export default defineComponent({
 
         //get hero from backend
         const loadHero = async (): Promise<void> => {
-            /*             await fetchHero().then(val => {
+            await fetchHero().then(val => {
+                console.log(val)
+
                 if (val) {
-                    hero.baseHero = val
+                    hero.data = val
                     isLoading.value = false
                 }
                 return
-            }) */
+            })
         }
 
-        watch(hero, newHero => {
+        watch(hero.data, newHero => {
+            console.log('watch hero.data')
             store.commit('updateHero', newHero)
         })
 
