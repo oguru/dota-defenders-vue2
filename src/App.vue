@@ -41,10 +41,8 @@ import {
     onBeforeMount
 } from '@vue/composition-api'
 import Vue from 'vue'
-import heroCRUD from './composables/heroCRUD'
-import { IHero } from './interfaces/hero.interface'
-
-const { saveHeroToDb, fetchHero } = heroCRUD()
+import { saveHeroToDb, fetchHero } from '@/composables/heroCRUD'
+import { IHero } from '@/interfaces/hero.interface'
 
 export default defineComponent({
     name: 'App',
