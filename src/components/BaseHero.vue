@@ -41,10 +41,10 @@ export default defineComponent({
 
         const isSelected = ref(false)
 
-        const init = ref(true)
+        const initOverlay = ref(true)
 
         const overlay = computed(() => {
-            if (init.value) return false
+            if (initOverlay.value) return false
             if (!isSelected.value) return true
             return false
         })
@@ -62,7 +62,7 @@ export default defineComponent({
 
         watch(selectedHero, () => {
             if (selectedHero.hero) {
-                init.value = false
+                initOverlay.value = false
             }
             if (selectedHero.hero.id === hero.id) {
                 isSelected.value = true
