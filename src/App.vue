@@ -5,7 +5,7 @@
                 <v-btn class="mx-1"
                     ><router-link to="/">Main</router-link></v-btn
                 >
-                <template v-if="hero.data.name">
+                <template v-if="hasHero">
                     <v-btn class="mx-1"
                         ><router-link to="/hero">Hero</router-link></v-btn
                     >
@@ -41,7 +41,7 @@ import {
     onBeforeMount
 } from '@vue/composition-api'
 import Vue from 'vue'
-import { saveHeroToDb, fetchHero } from '@/composables/heroCRUD'
+import { saveHeroToDb, fetchHero, loadHeroFromDb } from '@/composables/heroCRUD'
 import { IHero } from '@/interfaces/hero.interface'
 
 export default defineComponent({
@@ -49,38 +49,21 @@ export default defineComponent({
     setup() {
         const store = getCurrentInstance().proxy.$store
         const isLoading = ref(true)
-
-        //bool to ref or obj to ref - vue wraps inside another obj
-        //generic says expect bool inside this obj
-
-        const hero = reactive<{ data: IHero | Record<string, never> }>({
-            data: {}
-        })
+        const hasHero = ref(false)
 
         onBeforeMount(() => {
-            loadHero()
+            loadHeroFromDb(store)
         })
 
-        //get hero from backend
-        const loadHero = async (): Promise<void> => {
-            await fetchHero().then(val => {
-                console.log(val)
-
-                if (val) {
-                    hero.data = val
-                    isLoading.value = false
-                }
-                return
-            })
-        }
-
-        watch(hero.data, newHero => {
-            console.log('watch hero.data')
-            store.commit('updateHero', newHero)
-        })
+        watch(
+            () => store.getters.getHero.id,
+            () => {
+                if (store.getters.getHero.id) hasHero.value = true
+            }
+        )
 
         return {
-            hero
+            hasHero
         }
     }
 })
