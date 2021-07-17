@@ -65,19 +65,21 @@ import {
     reactive,
     ref,
     getCurrentInstance
-} from '@vue/composition-api'
+} from 'vue'
 import createHero from '@/composables/createHero'
 import { IHero } from '@/interfaces/hero.interface'
-import BaseHero from '@/components/BaseHero'
-import AbilityCard from '@/components/AbilityCard'
+import BaseHero from '@/components/BaseHero.vue'
+import AbilityCard from '@/components/AbilityCard.vue'
 import { saveHeroToDb } from '@/composables/heroCRUD'
+import { useStore } from 'vuex'
 
 export default defineComponent({
     name: 'CreateHero',
     components: { AbilityCard, BaseHero },
     setup() {
         const { getRandomHero, getRandomAbility } = createHero()
-        const store = getCurrentInstance().proxy.$store
+        const store = useStore()
+        // const store = getCurrentInstance().proxy.$store
         const router = getCurrentInstance().proxy.$router
 
         const randomHeroes = computed(() => {

@@ -39,15 +39,17 @@ import {
     watchEffect,
     onMounted,
     onBeforeMount
-} from '@vue/composition-api'
+} from 'vue'
 import Vue from 'vue'
 import { saveHeroToDb, fetchHero, loadHeroFromDb } from '@/composables/heroCRUD'
 import { IHero } from '@/interfaces/hero.interface'
+import { useStore } from 'vuex'
 
 export default defineComponent({
     name: 'App',
     setup() {
-        const store = getCurrentInstance().proxy.$store
+        // const store = getCurrentInstance().proxy.$store
+        const store = useStore()
         const isLoading = ref(true)
         const hasHero = ref(false)
 

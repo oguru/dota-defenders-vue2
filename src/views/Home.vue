@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api'
+import { defineComponent } from 'vue'
 
 // @ is an alias to /src
 import Hero from '@/components/BaseHero.vue'
