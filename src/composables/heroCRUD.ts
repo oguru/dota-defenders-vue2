@@ -7,8 +7,6 @@ export const loadHeroFromDb = async (store: Store<IHero>): Promise<void> => {
             if (val) {
                 store.commit('updateHero', val)
             }
-            throw new Error('test')
-            return
         })
         .catch(val => {
             console.log(val)
