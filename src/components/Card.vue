@@ -15,7 +15,7 @@
     </v-card> -->
 
     <!-- //original -->
-    <!-- <v-hover :disabled="disabled" v-slot="{ hover }">
+    <v-hover :disabled="disabled" v-slot="{ hover }">
         <v-card
             :disabled="disabled"
             @click="disabled ? null : $emit('handleClick', item)"
@@ -31,9 +31,9 @@
                 <slot></slot>
             </div>
         </v-card>
-    </v-hover> -->
+    </v-hover>
 
-    <v-hover :disabled="disabled" value="true">
+    <!-- <v-hover :disabled="disabled" value="true">
         <v-card
             :disabled="disabled"
             @click="disabled ? null : $emit('handleClick', item)"
@@ -48,7 +48,7 @@
                 <slot></slot>
             </div>
         </v-card>
-    </v-hover>
+    </v-hover> -->
 </template>
 
 <script lang="ts">
