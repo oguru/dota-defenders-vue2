@@ -78,6 +78,7 @@ export default defineComponent({
     setup() {
         const { getRandomHero, getRandomAbility } = createHero()
         const store = getCurrentInstance().proxy.$store
+        const router = getCurrentInstance().proxy.$router
 
         const randomHeroes = computed(() => {
             const heroSet = new Set()
@@ -141,6 +142,7 @@ export default defineComponent({
                 abilities: Object.values(hero.abilities)
             })
             saveHeroToDb(store.getters.getHero)
+            router.push({ name: 'Hero' })
         }
 
         return {
