@@ -1,3 +1,4 @@
+import { IHero } from '@/interfaces/hero.interface'
 import Vue from 'vue'
 import Vuex from 'vuex'
 
@@ -5,7 +6,7 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
     state: {
-        hero: {}
+        hero: {} as IHero | Record<string, never>
     },
 
     //Functions used to return values from the store. Use these when comput­ations need to be performed on the state value before they are passed to the caller. (You can also access the state directly.)
