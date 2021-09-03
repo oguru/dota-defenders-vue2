@@ -17,16 +17,10 @@
 </template>
 
 <script lang="ts">
-import {
-    computed,
-    defineComponent,
-    watch,
-    reactive,
-    ref
-} from '@vue/composition-api'
+import { computed, defineComponent, watch, reactive, ref } from 'vue'
 import store from '@/store'
 // import { IHero } from '../interfaces/hero.interface'
-import Card from '@/components/Card'
+import Card from '@/components/Card.vue'
 
 export default defineComponent({
     name: 'BaseHero',

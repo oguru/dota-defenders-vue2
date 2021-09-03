@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, watch } from '@vue/composition-api'
+import { defineComponent, ref, watch } from 'vue'
 import Card from '@/components/Card'
 import abilities from '@/data/abilities'
 
