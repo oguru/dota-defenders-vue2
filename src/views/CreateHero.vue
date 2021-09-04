@@ -119,7 +119,7 @@ export default defineComponent({
             }
         }
 
-        const selectedHero = reactive({ hero: null })
+        const selectedHero = reactive({ hero: {} })
 
         const selectHero = value => {
             selectedHero.hero = value

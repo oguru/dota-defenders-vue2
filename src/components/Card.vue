@@ -1,5 +1,21 @@
 <template>
-    <v-hover :disabled="disabled" v-slot="{ hover }">
+    <!-- <v-card
+        :disabled="disabled"
+        @click="disabled ? null : $emit('handleClick', item)"
+        class="base-card transition-speed"
+        :elevation="isSelected ? 8 : 2"
+    >
+        <v-overlay opacity="0.46" absolute :value="overlay"> </v-overlay>
+        <div
+            class="fill-height d-flex flex-column transition-speed"
+            :class="{ 'raise-card': isSelected }"
+        >
+            <slot></slot>
+        </div>
+    </v-card> -->
+
+    <!-- //original -->
+    <!-- <v-hover :disabled="disabled" v-slot="{ hover }">
         <v-card
             :disabled="disabled"
             @click="disabled ? null : $emit('handleClick', item)"
@@ -8,6 +24,23 @@
         >
             <v-overlay :opacity="hover ? 0.2 : 0.46" absolute :value="overlay">
             </v-overlay>
+            <div
+                class="fill-height d-flex flex-column transition-speed"
+                :class="{ 'raise-card': hover || isSelected }"
+            >
+                <slot></slot>
+            </div>
+        </v-card>
+    </v-hover> -->
+
+    <v-hover :disabled="disabled" value="true">
+        <v-card
+            :disabled="disabled"
+            @click="disabled ? null : $emit('handleClick', item)"
+            class="base-card transition-speed"
+            :elevation="hover || isSelected ? 8 : 2"
+        >
+            <v-overlay :opacity="0.46" absolute :value="overlay"> </v-overlay>
             <div
                 class="fill-height d-flex flex-column transition-speed"
                 :class="{ 'raise-card': hover || isSelected }"
@@ -33,6 +66,9 @@ export default defineComponent({
             type: Boolean,
             default: false
         }
+    },
+    setup() {
+        return {}
     }
 })
 </script>
